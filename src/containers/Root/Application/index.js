@@ -3,9 +3,11 @@
  */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import { MainHeader }from './components';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Header from '../../../components/Header';
+import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
 
 function mapStateToProps(state) {
     return {
@@ -18,6 +20,8 @@ function mapDispatchToProps(dispatch) {
         //logout: () => dispatch(logoutUser()),
     };
 }
+
+const token = 1234567;
 
 class App extends Component{
 
@@ -33,11 +37,31 @@ class App extends Component{
         const {children} = this.props;
 
         const isLoggedIn = token && token !== null && typeof token !== 'undefined';
-        const showSideBar = app && app.app_versions && Object.keys(app.app_versions).length > 0;
 
         return (
             <MuiThemeProvider>
-
+                <div className="container-fluid">
+                    <Header isLoggedIn={true}/>
+                    <section className="content">
+                        <div className="row">
+                            <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <Paper zDepth={1}>
+                                    <RaisedButton label="Yesterday" primary={true} style={{width: '100%'}} />
+                                </Paper>
+                            </div>
+                            <div className="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                <Paper zDepth={1}>
+                                    Center
+                                </Paper>
+                            </div>
+                            <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <Paper zDepth={1}>
+                                    <RaisedButton label="Tomorrow" secondary={true} style={{width: '100%'}}/>
+                                </Paper>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </MuiThemeProvider>
         )
     }
