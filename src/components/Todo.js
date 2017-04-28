@@ -10,28 +10,34 @@ import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import TimePicker from './TimePicker';
+import Slider from 'material-ui/Slider';
+import { TIME_FORMATS, PRIORITY } from '../constants';
 
 class PrioritySelector extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            value: 0
+            value: 0,
+            label: PRIORITY.MODERATE
         };
     }
 
-    handleChange = (event, index, value) => {
+    handleChange = (event, value) => {
         this.setState({value});
         this.props.handleChange(value);
     };
 
     render() {
         return (
-            <DropDownMenu value={this.state.value} onChange={this.handleChange} openImmediately={false}>
-                <MenuItem value={1} primaryText="Low" />
-                <MenuItem value={0} primaryText="Moderate" />
-                <MenuItem value={-1} primaryText="High" />
-            </DropDownMenu>
+            <div className="row">
+                <div className="col-md-4">
+                    <Slider style={{height: 60}} axis="y" defaultValue={0} onChange={this.handleChange} />
+                </div>
+                <div className="col-md-8">
+                    {}
+                </div>
+            </div>
         );
     }
 }
@@ -108,7 +114,7 @@ export default class Todo extends Component {
                 />
                 <CardText expandable={true}>
                     <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                             <TextField
                                 hintText="Title of new Pulka"
                                 value={title}
@@ -120,9 +126,9 @@ export default class Todo extends Component {
                                 onChange={this.handleDescriptionChange}
                             />
                         </div>
-                        <div className="col-md-6">
-                            Start Time: <TimePicker hintText="Start Time" handleChange={this.handleStartTimeChange} autoOk={true}/>
-                            End Time: <TimePicker hintText="End Time" handleChange={this.handleEndTimeChange} autoOk={true}/>
+                        <div className="col-md-4">
+                            <TimePicker hintText="Start Time" handleChange={this.handleStartTimeChange} autoOk={true}/>
+                            <TimePicker hintText="End Time" handleChange={this.handleEndTimeChange} autoOk={true}/>
                         </div>
                     </div>
                     <PrioritySelector handleChange={this.handlePriorityChange}/>
