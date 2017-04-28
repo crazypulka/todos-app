@@ -8,6 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Header from '../../../components/Header';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+import Todo from '../../../components/Todo';
 
 function mapStateToProps(state) {
     return {
@@ -52,7 +53,7 @@ class App extends Component{
                                 </div>
                                 <div className="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                                     <Paper zDepth={1}>
-                                        Center
+                                        <Todo/>
                                     </Paper>
                                 </div>
                                 <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
