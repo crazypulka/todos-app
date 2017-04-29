@@ -11,31 +11,37 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import TimePicker from './TimePicker';
 import Slider from 'material-ui/Slider';
-import { TIME_FORMATS, PRIORITY } from '../constants';
+import { TIME_FORMATS, PRIORITY, PRIORITY_LABELS } from '../constants';
+import {blue500, red500, green500} from 'material-ui/styles/colors';
+import { isDefined } from '../utils';
 
 class PrioritySelector extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            value: 0,
-            label: PRIORITY.MODERATE
+            value: props.value || 0,
+            label: PRIORITY_LABELS.MODERATE
         };
     }
 
+    componentWillMount(){
+        const {value} = this.props;
+        this.setState({value, label: value > 0 ? PRIORITY_LABELS.HIGH : (value < 0 ? PRIORITY_LABELS.LOW : PRIORITY_LABELS.MODERATE)});
+    }
+
     handleChange = (event, value) => {
-        this.setState({value});
+        this.setState({value, label: value > 0 ? PRIORITY_LABELS.HIGH : (value < 0 ? PRIORITY_LABELS.LOW : PRIORITY_LABELS.MODERATE)});
         this.props.handleChange(value);
     };
 
     render() {
+        const {value, label} = this.state;
         return (
-            <div className="row">
-                <div className="col-md-4">
-                    <Slider style={{height: 60}} axis="y" defaultValue={0} onChange={this.handleChange} />
-                </div>
-                <div className="col-md-8">
-                    {}
+            <div className="text-center">
+                <span>Priority: <strong>{label}</strong></span>
+                <div style={{margin: '0 auto', width: '30px'}}>
+                    <Slider step={1} style={{height: 90}} axis="y" defaultValue={0} onChange={this.handleChange} min={-1} max={1} />
                 </div>
             </div>
         );
@@ -48,7 +54,9 @@ export default class Todo extends Component {
         super(props);
         this.state = {
             inEditMode: false,
-            id: null,
+            priorityColor: blue500,
+            hintTitleError: false,
+            _id: null,
             timestamp: null,
             title: "",
             description: "",
@@ -56,16 +64,24 @@ export default class Todo extends Component {
             endTime: null,
             status: false, //TODO: 3 states
             label: "Default",
-            priority: "" //TODO: ENUM here
+            priority: PRIORITY.MODERATE
         };
+    }
+
+    componentWillMount(){
+        const {handleSave, handleUpdate, ...todo} = this.props;
+        this.handlePriorityChange(todo.priority);
+        this.setState({...todo});
+    }
+
+    componentWillReceiveProps(nextProps){
+        const {handleSave, handleUpdate, ...todo} = nextProps;
+        this.handlePriorityChange(todo.priority);
+        this.setState({...todo});
     }
 
     handleExpandChange = (inEditMode) => {
         this.setState({inEditMode: inEditMode});
-    };
-
-    handleToggle = (event, toggle) => {
-        this.setState({inEditMode: toggle});
     };
 
     handleExpand = () => {
@@ -77,7 +93,7 @@ export default class Todo extends Component {
     };
 
     handleTitleChange = (event, value) => {
-        this.setState({title: value.trim()});
+        this.setState({title: value.trim(), hintTitleError: !value.trim()});
     };
 
     handleDescriptionChange = (event, value) => {
@@ -85,7 +101,8 @@ export default class Todo extends Component {
     };
 
     handlePriorityChange = (value) => {
-        this.setState({priority: value});
+        const priorityColor = value > 0 ? red500 : (value < 0 ? green500 : blue500);
+        this.setState({priority: value, priorityColor: priorityColor});
     };
 
     handleStartTimeChange = (value) => {
@@ -96,10 +113,20 @@ export default class Todo extends Component {
         this.setState({endTime: value});
     };
 
+    handleSave = (e) => {
+        let {hintTitleError, inEditMode, priorityColor, ...todo} = this.state;
+        if(isDefined(todo.title)){
+            this.props.saveTodo(...todo);
+        }else{
+            this.setState({hintTitleError: true});
+        }
+    };
+
     render() {
         const {
-            inEditMode, title, description, label, startTime, endTime,
-            status, timestamp
+            _id, inEditMode, title, description,
+            label, startTime, endTime, status,
+            timestamp, priority, priorityColor, hintTitleError
         } = this.state;
         return (
             <Card expanded={inEditMode} onExpandChange={this.handleExpandChange}>
@@ -111,35 +138,39 @@ export default class Todo extends Component {
                     showExpandableButton={true}
                     closeIcon={<ModeEdit />}
                     openIcon={<ModeEdit />}
+                    titleColor={priorityColor}
+                    subtitleColor={priorityColor}
                 />
                 <CardText expandable={true}>
-                    <div className="row">
-                        <div className="col-md-4">
+                    <div className="row text-center">
+                        <div className="col-md-5">
                             <TextField
-                                hintText="Title of new Pulka"
                                 value={title}
                                 onChange={this.handleTitleChange}
+                                floatingLabelText="Title of new Pulka"
+                                {...{errorText: hintTitleError && "Title required..!"}}
                             />
                             <TextField
-                                hintText="description if any"
                                 value={description}
                                 onChange={this.handleDescriptionChange}
+                                floatingLabelText="Description of Pulka"
                             />
                         </div>
-                        <div className="col-md-4">
-                            <TimePicker hintText="Start Time" handleChange={this.handleStartTimeChange} autoOk={true}/>
-                            <TimePicker hintText="End Time" handleChange={this.handleEndTimeChange} autoOk={true}/>
+                        <div className="col-md-5">
+                            <TimePicker value={startTime} floatingLabelText="Start Time" handleChange={this.handleStartTimeChange} autoOk={true}/>
+                            <TimePicker value={endTime} floatingLabelText="End Time" handleChange={this.handleEndTimeChange} autoOk={true}/>
+                        </div>
+                        <div className="col-md-2">
+                            <PrioritySelector value={priority} handleChange={this.handlePriorityChange}/>
                         </div>
                     </div>
-                    <PrioritySelector handleChange={this.handlePriorityChange}/>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                    Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                    Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
                 </CardText>
                 <CardActions expandable={true}>
-                    <FlatButton label="Save" onTouchTap={this.handleExpand} />
-                    <FlatButton label="Edit" onTouchTap={this.handleReduce} />
+                    {
+                        isDefined(_id) ?
+                            <FlatButton label="Update" onTouchTap={this.handleReduce} />
+                            : <FlatButton label="Save" onTouchTap={this.handleSave} />
+                    }
                 </CardActions>
             </Card>
         );
