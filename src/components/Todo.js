@@ -157,8 +157,9 @@ export default class Todo extends Component {
             timestamp, priority, priorityColor, hintTitleError,
             notify
         } = this.state;
+        const {isNew = false} = this.props;
         return (
-            <Card expanded={inEditMode} onExpandChange={this.handleExpandChange}>
+            <Card expanded={inEditMode} initiallyExpanded={isNew} onExpandChange={this.handleExpandChange}>
                 <CardHeader
                     title={title}
                     subtitle={description}
@@ -248,8 +249,8 @@ export default class Todo extends Component {
                 <CardActions expandable={true}>
                     {
                         isDefined(_id) ?
-                            <FlatButton label="Update" onTouchTap={this.handleReduce} />
-                            : <FlatButton label="Save" onTouchTap={this.handleSave} />
+                            <FlatButton label="Update" primary={true} onTouchTap={this.handleReduce} />
+                            : <FlatButton label="Save" primary={true} onTouchTap={this.handleSave} />
                     }
                 </CardActions>
             </Card>
