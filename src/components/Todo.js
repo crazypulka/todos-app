@@ -19,7 +19,8 @@ import TimePicker from './TimePicker';
 import Slider from 'material-ui/Slider';
 import { TIME_FORMATS, PRIORITY, PRIORITY_LABELS } from '../constants';
 import {
-    blue500, red500, green500, purple500, amber500, deepOrange500
+    blue500, red500, green500, purple500, amber500, deepOrange500,
+    lightBlack, blue900
 } from 'material-ui/styles/colors';
 import { isDefined } from '../utils';
 import FontIcon from 'material-ui/FontIcon';
@@ -128,7 +129,7 @@ export default class Todo extends Component {
     };
 
     handlePriorityChange = (value) => {
-        const priorityColor = value > 0 ? red500 : (value < 0 ? green500 : blue500);
+        const priorityColor = value > 0 ? red500 : (value < 0 ? amber500 : blue900);
         this.setState({priority: value, priorityColor: priorityColor});
     };
 
@@ -164,8 +165,8 @@ export default class Todo extends Component {
                     avatar="/assets/img/pulka.png"
                     actAsExpander={true}
                     showExpandableButton={true}
-                    closeIcon={<SettingsIcon />}
-                    openIcon={<SettingsIcon />}
+                    closeIcon={<SettingsIcon color={lightBlack} />}
+                    openIcon={<SettingsIcon color={lightBlack}/>}
                     titleColor={priorityColor}
                     titleStyle={status && strikeThroughTextStyles}
                     subtitleStyle={status && strikeThroughTextStyles}
@@ -232,7 +233,7 @@ export default class Todo extends Component {
                             <TextField
                                 value={description}
                                 onChange={this.handleDescriptionChange}
-                                floatingLabelText="Description of Pulka"
+                                floatingLabelText="Ingredients if any (description)"
                             />
                         </div>
                         <div className="col-md-5">
