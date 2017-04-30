@@ -18,3 +18,9 @@ export const TIME_FORMATS = {
     HALF: "ampm",
     FULL: "24hr"
 };
+
+export const TODO_FILTER_ENUM = {
+    ALL: "ALL",
+    DONE: "DONE",
+    UNDONE: "UNDONE"
+};
