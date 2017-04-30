@@ -6,14 +6,25 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 import Toggle from 'material-ui/Toggle';
 import ModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
+import CheckCircleIcon from 'material-ui/svg-icons/action/check-circle';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
 import TextField from 'material-ui/TextField';
+import NotificationOff from 'material-ui/svg-icons/social/notifications-off';
+import NotificationActive from 'material-ui/svg-icons/social/notifications-active';
+import NotificationOn from 'material-ui/svg-icons/alert/add-alert';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import TimePicker from './TimePicker';
 import Slider from 'material-ui/Slider';
 import { TIME_FORMATS, PRIORITY, PRIORITY_LABELS } from '../constants';
-import {blue500, red500, green500} from 'material-ui/styles/colors';
+import {
+    blue500, red500, green500, purple500, amber500, deepOrange500
+} from 'material-ui/styles/colors';
 import { isDefined } from '../utils';
+import FontIcon from 'material-ui/FontIcon';
+import IconButton from 'material-ui/IconButton';
+import ActionHome from 'material-ui/svg-icons/action/home';
 
 class PrioritySelector extends React.Component {
 
@@ -48,6 +59,21 @@ class PrioritySelector extends React.Component {
     }
 }
 
+const todoAttributeIconHolderStyles = {
+    marginRight: '50px',
+    marginTop: '10px'
+};
+
+const todoAttributeIconStyles = {
+    width: '20px',
+    height: '20px',
+    marginRight: '10px'
+};
+
+const strikeThroughTextStyles = {
+    textDecoration: 'line-through'
+};
+
 export default class Todo extends Component {
 
     constructor(props) {
@@ -64,7 +90,8 @@ export default class Todo extends Component {
             endTime: null,
             status: false, //TODO: 3 states
             label: "Default",
-            priority: PRIORITY.MODERATE
+            priority: PRIORITY.MODERATE,
+            notify: false,
         };
     }
 
@@ -93,11 +120,11 @@ export default class Todo extends Component {
     };
 
     handleTitleChange = (event, value) => {
-        this.setState({title: value.trim(), hintTitleError: !value.trim()});
+        this.setState({title: value, hintTitleError: !value.trim()});
     };
 
     handleDescriptionChange = (event, value) => {
-        this.setState({description: value.trim()});
+        this.setState({description: value});
     };
 
     handlePriorityChange = (value) => {
@@ -115,7 +142,7 @@ export default class Todo extends Component {
 
     handleSave = (e) => {
         let {hintTitleError, inEditMode, priorityColor, ...todo} = this.state;
-        if(isDefined(todo.title)){
+        if(isDefined(todo.title.trim())){
             this.props.saveTodo(...todo);
         }else{
             this.setState({hintTitleError: true});
@@ -126,7 +153,8 @@ export default class Todo extends Component {
         const {
             _id, inEditMode, title, description,
             label, startTime, endTime, status,
-            timestamp, priority, priorityColor, hintTitleError
+            timestamp, priority, priorityColor, hintTitleError,
+            notify
         } = this.state;
         return (
             <Card expanded={inEditMode} onExpandChange={this.handleExpandChange}>
@@ -136,13 +164,64 @@ export default class Todo extends Component {
                     avatar="/assets/img/pulka.png"
                     actAsExpander={true}
                     showExpandableButton={true}
-                    closeIcon={<ModeEdit />}
-                    openIcon={<ModeEdit />}
+                    closeIcon={<SettingsIcon />}
+                    openIcon={<SettingsIcon />}
                     titleColor={priorityColor}
-                    subtitleColor={priorityColor}
-                />
+                    titleStyle={status && strikeThroughTextStyles}
+                    subtitleStyle={status && strikeThroughTextStyles}
+                >
+                    <div className="pull-right" style={todoAttributeIconHolderStyles}>
+                        {
+                            status && <CheckCircleIcon color={green500} style={todoAttributeIconStyles}/>
+                        }
+                        {
+                            notify && <NotificationActive color={purple500} style={todoAttributeIconStyles}/>
+                        }
+                    </div>
+                </CardHeader>
+                <CardText expandable={true} style={{borderBottom: '1px solid #DDD', borderTop: '1px solid #DDD'}}>
+                    <div className="row">
+                        <div className="col-md-4">
+
+                        </div>
+                        <div className="col-md-4">
+                            { !status &&
+                                <IconButton tooltip="Done" touch={true} tooltipPosition="top-center" onClick={() => this.setState({status: true})}>
+                                    <CheckCircleIcon color={green500} />
+                                </IconButton>
+                            }
+                            { status &&
+                                <IconButton tooltip="Undone" touch={true} tooltipPosition="top-center" onClick={() => this.setState({status: false})}>
+                                    <ClearIcon color={red500} />
+                                </IconButton>
+                            }
+                        </div>
+                        <div className="col-md-4">
+                            { !notify &&
+                                <IconButton
+                                            tooltip="Enable Notification"
+                                            touch={true}
+                                            tooltipPosition="top-center"
+                                            onClick={() => this.setState({notify: true})}
+                                >
+                                    <NotificationOn color={purple500} />
+                                </IconButton>
+                            }
+                            { notify &&
+                                <IconButton
+                                            tooltip="Disable Notification"
+                                            touch={true}
+                                            tooltipPosition="top-center"
+                                            onClick={() => this.setState({notify: false})}
+                                >
+                                    <NotificationOff color={deepOrange500}/>
+                                </IconButton>
+                            }
+                        </div>
+                    </div>
+                </CardText>
                 <CardText expandable={true}>
-                    <div className="row text-center">
+                    <div className="row">
                         <div className="col-md-5">
                             <TextField
                                 value={title}
