@@ -102,10 +102,8 @@ export default class Todo extends Component {
         this.setState({...todo});
     }
 
-    componentWillReceiveProps(nextProps){
-        const {handleSave, handleUpdate, ...todo} = nextProps;
-        this.handlePriorityChange(todo.priority);
-        this.setState({...todo});
+    componentWillReceiveProps(nextProps){ //TODO:
+        const {} = nextProps;
     }
 
     handleExpandChange = (inEditMode) => {
