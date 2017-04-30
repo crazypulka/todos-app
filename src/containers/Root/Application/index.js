@@ -9,6 +9,7 @@ import Header from '../../../components/Header';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import Todo from '../../../components/Todo';
+import Todos from './RequireAuth/Todos';
 
 function mapStateToProps(state) {
     return {
@@ -32,7 +33,7 @@ class App extends Component{
 
     componentWillReceiveProps(nextProps){
 
-     }
+    }
 
     render() {
         const {children} = this.props;
@@ -43,27 +44,7 @@ class App extends Component{
             <MuiThemeProvider>
                 <div className="container-full">
                     <Header isLoggedIn={true}/>
-                    <section className="content">
-                        <div className="container-fluid">
-                            <div className="row">
-                                <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                    <Paper zDepth={1}>
-                                        <RaisedButton label="Yesterday" primary={true} style={{width: '100%'}} />
-                                    </Paper>
-                                </div>
-                                <div className="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                                    <Paper zDepth={1}>
-                                        <Todo/>
-                                    </Paper>
-                                </div>
-                                <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                    <Paper zDepth={1}>
-                                        <RaisedButton label="Tomorrow" secondary={true} style={{width: '100%'}}/>
-                                    </Paper>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                    <Todos />
                 </div>
             </MuiThemeProvider>
         )
