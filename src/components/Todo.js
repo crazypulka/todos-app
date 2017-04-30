@@ -44,7 +44,7 @@ class PrioritySelector extends React.Component {
 
     handleChange = (event, value) => {
         this.setState({value, label: value > 0 ? PRIORITY_LABELS.HIGH : (value < 0 ? PRIORITY_LABELS.LOW : PRIORITY_LABELS.MODERATE)});
-        this.props.handleChange(value);
+        this.props.handleDateChange(value);
     };
 
     render() {
