@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import Todo from '../../../../../components/Todo';
+import { TODO_FILTER_ENUM } from '../../../../../constants';
 import { TodosToolbar } from './components';
 
 function mapStateToProps(state) {
@@ -22,7 +23,16 @@ function mapDispatchToProps(dispatch) {
 
 const token = 1234567;
 
-class Todos extends Component{
+class Todos extends Component {
+
+    constructor(props){
+
+        super(props);
+        this.state = {
+            currentFilter: TODO_FILTER_ENUM.ALL
+        }
+
+    }
 
     componentWillMount(){
 
@@ -31,6 +41,14 @@ class Todos extends Component{
     componentWillReceiveProps(nextProps){
 
     }
+
+    handleDateFilter = (date) => {
+
+    };
+
+    handleTodoFilter = (filter) => {
+
+    };
 
     render() {
 
@@ -44,7 +62,7 @@ class Todos extends Component{
                             </Paper>
                         </div>
                         <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                            <TodosToolbar/>
+                            <TodosToolbar handleTodoFilter={this.handleTodoFilter} handleDateFilter={this.handleDateFilter}/>
                             <Paper zDepth={1}>
                                 <Todo/>
                             </Paper>

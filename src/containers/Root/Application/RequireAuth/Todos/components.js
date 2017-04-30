@@ -13,14 +13,17 @@ import Paper from 'material-ui/Paper';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import CheckCircleIcon from 'material-ui/svg-icons/action/check-circle';
+import EventIcon from 'material-ui/svg-icons/action/event';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import AllIcon from 'material-ui/svg-icons/content/select-all';
+import SortIcon from 'material-ui/svg-icons/content/sort';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import moment from 'moment';
 import {
     blue500, red500, green500, purple500, amber500, deepOrange500,
-    lightBlack, blue900
+    lightBlack, blue900, darkWhite, fullWhite, lightWhite
 } from 'material-ui/styles/colors';
+import { TODO_FILTER_ENUM } from '../../../../../constants';
 
 const DATE_MAPPER = {
     1: [moment(), moment()],
@@ -37,47 +40,44 @@ export class TodosToolbar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: 3,
-            filter: 1,
+            date: 3,
+            filter: TODO_FILTER_ENUM.ALL,
         };
     }
 
-    handleChange = (event, index, value) => this.setState({value});
+    handleDateChange = (event, index, value) => {
+        this.props.handleDateFilter(DATE_MAPPER[value]);
+        this.setState({date: value});
+    };
 
-    handleFilterChange = (event, index, filter) => this.setState({filter});
+    handleFilterChange = (event, index, filter) => {
+        this.props.handleTodoFilter(filter);
+        this.setState({filter});
+    };
 
     render() {
 
-        const {value, filter} = this.state;
+        const {date, filter} = this.state;
 
         return (
-            <Toolbar>
-                <ToolbarGroup firstChild={true}>
-                    <ToolbarTitle text="Todos" />
-                    <FontIcon className="muidocs-icon-custom-sort" />
+            <Toolbar style={{backgroundColor: blue900, color: fullWhite}}>
+                <ToolbarGroup>
+                    <ToolbarTitle text="Pulkas" style={{color: darkWhite}} />
+                    <FloatingActionButton mini={true} style={{margin: 'auto 10px'}}>
+                        <ContentAdd />
+                    </FloatingActionButton>
                     <ToolbarSeparator />
-                    <RaisedButton label="Create Broadcast" primary={true} />
-                    <IconMenu
-                        iconButtonElement={
-                            <IconButton touch={true}>
-                                <NavigationExpandMoreIcon />
-                            </IconButton>
-                        }
-                    >
-                        <MenuItem primaryText="Download" />
-                        <MenuItem primaryText="More Info" />
-                    </IconMenu>
-                </ToolbarGroup>
-                <ToolbarGroup lastChild={true}>
-                    <AllIcon color={blue500}/>
-                    <DropDownMenu value={this.state.filter} onChange={this.handleFilterChange}>
-                        <MenuItem value={1} primaryText="All" leftIcon={<AllIcon color={blue500}/>} />
-                        <MenuItem value={2} primaryText="Done" leftIcon={<CheckCircleIcon color={green500}/>} />
-                        <MenuItem value={3} primaryText="Undone" leftIcon={<ClearIcon color={red500} />} />
+                    <SortIcon color={blue500} style={{margin: 'auto 10px'}}/>
+                    <DropDownMenu value={filter} onChange={this.handleFilterChange} labelStyle={{color: darkWhite, fontSize: '18px'}} style={{width:150}} fixedWidth={true}>
+                        <MenuItem value={TODO_FILTER_ENUM.ALL} primaryText="All" leftIcon={<AllIcon color={blue500}/>} />
+                        <MenuItem value={TODO_FILTER_ENUM.DONE} primaryText="Done" leftIcon={<CheckCircleIcon color={green500}/>} />
+                        <MenuItem value={TODO_FILTER_ENUM.UNDONE} primaryText="Undone" leftIcon={<ClearIcon color={red500} />} />
                     </DropDownMenu>
                 </ToolbarGroup>
                 <ToolbarGroup lastChild={true}>
-                    <DropDownMenu value={this.state.value} onChange={this.handleChange}>
+                    <ToolbarSeparator />
+                    <EventIcon color={blue500} style={{margin: 'auto 10px'}}/>
+                    <DropDownMenu value={date} onChange={this.handleDateChange} labelStyle={{color: darkWhite, fontSize: '18px'}} style={{width:180}} fixedWidth={true}>
                         <MenuItem value={1} primaryText="Today" />
                         <MenuItem value={2} primaryText="Yesterday" />
                         <MenuItem value={3} primaryText="Tomorrow" />
@@ -86,9 +86,6 @@ export class TodosToolbar extends React.Component {
                         <MenuItem value={6} primaryText="This Month" />
                         <MenuItem value={7} primaryText="Last Month" />
                     </DropDownMenu>
-                    <FloatingActionButton mini={true}>
-                        <ContentAdd />
-                    </FloatingActionButton>
                 </ToolbarGroup>
             </Toolbar>
         );
