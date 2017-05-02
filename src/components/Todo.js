@@ -8,6 +8,7 @@ import Toggle from 'material-ui/Toggle';
 import ModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import CheckCircleIcon from 'material-ui/svg-icons/action/check-circle';
+import RestoreIcon from 'material-ui/svg-icons/action/restore';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import TextField from 'material-ui/TextField';
 import NotificationOff from 'material-ui/svg-icons/social/notifications-off';
@@ -26,6 +27,7 @@ import { isDefined } from '../utils';
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import ActionHome from 'material-ui/svg-icons/action/home';
+import DeleteForeverIcon from 'material-ui/svg-icons/action/delete-forever';
 
 class PrioritySelector extends React.Component {
 
@@ -180,9 +182,11 @@ export default class Todo extends Component {
                     </div>
                 </CardHeader>
                 <CardText expandable={true} style={{borderBottom: '1px solid #DDD', borderTop: '1px solid #DDD'}}>
-                    <div className="row">
+                    <div className="row text-center">
                         <div className="col-md-4">
-
+                            <IconButton tooltip="Delete" touch={true} tooltipPosition="top-center" onClick={() => this.setState({status: true})}>
+                                <DeleteForeverIcon color={red500} />
+                            </IconButton>
                         </div>
                         <div className="col-md-4">
                             { !status &&
@@ -192,7 +196,7 @@ export default class Todo extends Component {
                             }
                             { status &&
                                 <IconButton tooltip="Undone" touch={true} tooltipPosition="top-center" onClick={() => this.setState({status: false})}>
-                                    <ClearIcon color={red500} />
+                                    <RestoreIcon color={blue900} />
                                 </IconButton>
                             }
                         </div>
