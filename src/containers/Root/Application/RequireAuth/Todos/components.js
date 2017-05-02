@@ -22,7 +22,7 @@ import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui
 import moment from 'moment';
 import {
     blue500, red500, green500, purple500, amber500, deepOrange500,
-    lightBlack, blue900, darkWhite, fullWhite, lightWhite
+    lightBlack, blue900, darkWhite, fullWhite, lightWhite, blue200, blue300
 } from 'material-ui/styles/colors';
 import DatePicker from 'material-ui/DatePicker';
 import AutoComplete from 'material-ui/AutoComplete';
@@ -83,7 +83,7 @@ export class TodosToolbar extends React.Component {
                     <ToolbarSeparator />
                     <SearchIcon color={blue500} style={{margin: 'auto 10px'}}/>
                     <AutoComplete
-                        hintText={<span style={{color: darkWhite}}>Search Pulkas..</span>}
+                        hintText={<span style={{color: blue500}}>Search Pulkas..</span>}
                         dataSource={dataSource}
                         onUpdateInput={this.handleSearch}
                         textFieldStyle={{color: darkWhite}}

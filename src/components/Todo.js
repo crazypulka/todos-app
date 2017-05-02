@@ -21,7 +21,7 @@ import Slider from 'material-ui/Slider';
 import { TIME_FORMATS, PRIORITY, PRIORITY_LABELS } from '../constants';
 import {
     blue500, red500, green500, purple500, amber500, deepOrange500,
-    lightBlack, blue900
+    lightBlack, blue900, blue200
 } from 'material-ui/styles/colors';
 import { isDefined } from '../utils';
 import FontIcon from 'material-ui/FontIcon';
@@ -141,6 +141,22 @@ export default class Todo extends Component {
         this.setState({endTime: value});
     };
 
+    handleStatusChange = (value) => {
+        //handle UNDO also
+        this.setState({status: value});
+    };
+
+    handleDelete = () => {
+        //handle UNDO
+        //this.setState({endTime: value});
+    };
+
+    handleNotification = (flag) => {
+        //handle UNDO also
+        //this.setState({endTime: value});
+        this.setState({notify: true})
+    };
+
     handleSave = (e) => {
         let {hintTitleError, inEditMode, priorityColor, ...todo} = this.state;
         if(isDefined(todo.title.trim())){
@@ -184,18 +200,13 @@ export default class Todo extends Component {
                 <CardText expandable={true} style={{borderBottom: '1px solid #DDD', borderTop: '1px solid #DDD'}}>
                     <div className="row text-center">
                         <div className="col-md-4">
-                            <IconButton tooltip="Delete" touch={true} tooltipPosition="top-center" onClick={() => this.setState({status: true})}>
-                                <DeleteForeverIcon color={red500} />
-                            </IconButton>
-                        </div>
-                        <div className="col-md-4">
                             { !status &&
-                                <IconButton tooltip="Done" touch={true} tooltipPosition="top-center" onClick={() => this.setState({status: true})}>
+                                <IconButton tooltip="Done" touch={true} tooltipPosition="top-center" onClick={() => this.handleStatusChange(true)}>
                                     <CheckCircleIcon color={green500} />
                                 </IconButton>
                             }
                             { status &&
-                                <IconButton tooltip="Undone" touch={true} tooltipPosition="top-center" onClick={() => this.setState({status: false})}>
+                                <IconButton tooltip="Undone" touch={true} tooltipPosition="top-center" onClick={() => this.handleStatusChange(false)}>
                                     <RestoreIcon color={blue900} />
                                 </IconButton>
                             }
@@ -206,7 +217,7 @@ export default class Todo extends Component {
                                             tooltip="Enable Notification"
                                             touch={true}
                                             tooltipPosition="top-center"
-                                            onClick={() => this.setState({notify: true})}
+                                            onClick={() => this.handleNotification(true)}
                                 >
                                     <NotificationOn color={purple500} />
                                 </IconButton>
@@ -216,11 +227,16 @@ export default class Todo extends Component {
                                             tooltip="Disable Notification"
                                             touch={true}
                                             tooltipPosition="top-center"
-                                            onClick={() => this.setState({notify: false})}
+                                            onClick={() => this.handleNotification(false)}
                                 >
                                     <NotificationOff color={deepOrange500}/>
                                 </IconButton>
                             }
+                        </div>
+                        <div className="col-md-4">
+                            <IconButton tooltip="Delete" touch={true} tooltipPosition="top-center" onClick={() => this.handleDelete()}>
+                                <DeleteForeverIcon color={red500} />
+                            </IconButton>
                         </div>
                     </div>
                 </CardText>
