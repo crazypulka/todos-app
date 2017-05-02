@@ -17,12 +17,15 @@ import EventIcon from 'material-ui/svg-icons/action/event';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import AllIcon from 'material-ui/svg-icons/content/select-all';
 import SortIcon from 'material-ui/svg-icons/content/sort';
+import SearchIcon from 'material-ui/svg-icons/action/search';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import moment from 'moment';
 import {
     blue500, red500, green500, purple500, amber500, deepOrange500,
     lightBlack, blue900, darkWhite, fullWhite, lightWhite
 } from 'material-ui/styles/colors';
+import DatePicker from 'material-ui/DatePicker';
+import AutoComplete from 'material-ui/AutoComplete';
 import { TODO_FILTER_ENUM } from '../../../../../constants';
 
 const DATE_MAPPER = {
@@ -42,10 +45,11 @@ export class TodosToolbar extends React.Component {
         this.state = {
             date: 3,
             filter: TODO_FILTER_ENUM.ALL,
+            dataSource: []
         };
     }
 
-    handleDateChange = (event, index, value) => {
+    handleDateChange = (event, value) => {
         this.props.handleDateFilter(DATE_MAPPER[value]);
         this.setState({date: value});
     };
@@ -55,9 +59,19 @@ export class TodosToolbar extends React.Component {
         this.setState({filter});
     };
 
+    handleSearch = (value) => {
+        this.setState({
+            dataSource: [
+                value,
+                value + value,
+                value + value + value,
+            ],
+        });
+    };
+
     render() {
 
-        const {date, filter} = this.state;
+        const {date, filter, dataSource} = this.state;
 
         return (
             <Toolbar style={{backgroundColor: blue900, color: fullWhite}}>
@@ -66,6 +80,14 @@ export class TodosToolbar extends React.Component {
                     <FloatingActionButton mini={true} style={{margin: 'auto 10px'}}>
                         <ContentAdd />
                     </FloatingActionButton>
+                    <ToolbarSeparator />
+                    <SearchIcon color={blue500} style={{margin: 'auto 10px'}}/>
+                    <AutoComplete
+                        hintText={<span style={{color: darkWhite}}>Search Pulkas..</span>}
+                        dataSource={dataSource}
+                        onUpdateInput={this.handleSearch}
+                        textFieldStyle={{color: darkWhite}}
+                    />
                     <ToolbarSeparator />
                     <SortIcon color={blue500} style={{margin: 'auto 10px'}}/>
                     <DropDownMenu value={filter} onChange={this.handleFilterChange} labelStyle={{color: darkWhite, fontSize: '18px'}} style={{width:150}} fixedWidth={true}>
@@ -77,7 +99,17 @@ export class TodosToolbar extends React.Component {
                 <ToolbarGroup lastChild={true}>
                     <ToolbarSeparator />
                     <EventIcon color={blue500} style={{margin: 'auto 10px'}}/>
-                    <DropDownMenu value={date} onChange={this.handleDateChange} labelStyle={{color: darkWhite, fontSize: '18px'}} style={{width:180}} fixedWidth={true}>
+                    <DatePicker
+                        hintText="Select Date"
+                        autoOk={true}
+                        container="inline"
+                        onChange={this.handleDateChange}
+                        defaultDate={new Date()}
+                        textFieldStyle={{maxWidth:120, cursor: 'pointer'}}
+                        inputStyle={{color: darkWhite}}
+                        underlineShow={false}
+                    />
+                    {/*<DropDownMenu value={date} onChange={this.handleDateChange} labelStyle={{color: darkWhite, fontSize: '18px'}} style={{width:180}} fixedWidth={true}>
                         <MenuItem value={1} primaryText="Today" />
                         <MenuItem value={2} primaryText="Yesterday" />
                         <MenuItem value={3} primaryText="Tomorrow" />
@@ -85,7 +117,7 @@ export class TodosToolbar extends React.Component {
                         <MenuItem value={5} primaryText="Last Week" />
                         <MenuItem value={6} primaryText="This Month" />
                         <MenuItem value={7} primaryText="Last Month" />
-                    </DropDownMenu>
+                    </DropDownMenu>*/}
                 </ToolbarGroup>
             </Toolbar>
         );

@@ -56,18 +56,18 @@ class Todos extends Component {
             <section className="content">
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-md-2 col-lg-2">
+                        <div className="col-md-1 col-lg-1 visible-md visible-lg">
                             <Paper zDepth={1}>
                                 <RaisedButton label="Yesterday" primary={true} style={{width: '100%'}} />
                             </Paper>
                         </div>
-                        <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                        <div className="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                             <TodosToolbar handleTodoFilter={this.handleTodoFilter} handleDateFilter={this.handleDateFilter}/>
                             <Paper zDepth={1}>
                                 <Todo/>
                             </Paper>
                         </div>
-                        <div className="col-md-2 col-lg-2">
+                        <div className="col-md-1 col-lg-1 visible-md visible-lg">
                             <Paper zDepth={1}>
                                 <RaisedButton label="Tomorrow" secondary={true} style={{width: '100%'}}/>
                             </Paper>
