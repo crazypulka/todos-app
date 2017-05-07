@@ -9,6 +9,7 @@ import Header from '../../../components/Header';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import Todo from '../../../components/Todo';
+import { ProfileComponent } from './RequireAuth/Profile/components';
 import Todos from './RequireAuth/Todos';
 
 function mapStateToProps(state) {
@@ -44,7 +45,7 @@ class App extends Component{
             <MuiThemeProvider>
                 <div className="container-full">
                     <Header isLoggedIn={true}/>
-                    <Todos />
+                    <ProfileComponent/>
                 </div>
             </MuiThemeProvider>
         )
