@@ -48,13 +48,13 @@ class Profile extends Component {
             <section className="content">
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-md-1 col-lg-1 visible-md visible-lg">
+                        <div className="col-md-2 col-lg-2 visible-md visible-lg">
 
                         </div>
-                        <div className="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                        <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                             <ProfileComponent/>
                         </div>
-                        <div className="col-md-1 col-lg-1 visible-md visible-lg">
+                        <div className="col-md-2 col-lg-2 visible-md visible-lg">
 
                         </div>
                     </div>

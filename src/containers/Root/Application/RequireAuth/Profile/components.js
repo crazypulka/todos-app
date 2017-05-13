@@ -27,6 +27,7 @@ import {
 import DatePicker from 'material-ui/DatePicker';
 import AutoComplete from 'material-ui/AutoComplete';
 import TextField from 'material-ui/TextField';
+import ModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import Avatar from 'material-ui/Avatar';
 import {Card, CardHeader, CardText,  CardActions, CardMedia, CardTitle} from 'material-ui/Card';
 import Toggle from 'material-ui/Toggle';
@@ -56,6 +57,8 @@ export class ProfileComponent extends React.Component {
             name: "",
             about: "",
             username: "",
+            img: "",
+            cover: "",
             email: "",
             mobile: "",
             location: "",
@@ -67,11 +70,11 @@ export class ProfileComponent extends React.Component {
             daily: [],
             weekly: [],
             monthly: [],
-            locations: []
+            locations: [],
         };
     }
 
-    handleToggle = (event, toggle) => {
+    handleEditMode = (event, toggle) => {
         this.setState({inEditMode: toggle});
     };
 
@@ -116,14 +119,15 @@ export class ProfileComponent extends React.Component {
 
     handleUpdate = (e) => {
         //TODO:
-        this.handleToggle(e, false);
+        this.handleEditMode(e, false);
     };
 
     render() {
 
         const { inEditMode, name, about, username, email, mobile,
             location, verified, timezone, gender, dob,
-            isPublic, daily, weekly, monthly, locations
+            isPublic, daily, weekly, monthly, locations,
+            img, cover
         } = this.state;
 
         return (
@@ -132,27 +136,25 @@ export class ProfileComponent extends React.Component {
                     overlay={
                         <div className="container-fluid">
                             <div className="row">
-                                <div className="col-md-9">
-                                    <Toggle
-                                        toggled={inEditMode}
-                                        onToggle={this.handleToggle}
-                                        labelPosition="right"
-                                        label="Edit"
-                                    />
+                                <div className="col-md-9 col-lg-9 col-sm-9 col-xs-9">
                                     <CardTitle title={name} subtitle={about} titleColor={fullWhite} subtitleColor={darkWhite}/>
                                 </div>
-                                <div className="col-md-3">
-                                    <Avatar
-                                        src="/assets/img/user.png"
-                                        size={150}
-                                        style={{}}
-                                    />
+                                <div className="col-md-2 col-lg-2 col-sm-2 col-xs-2">
+                                    <img className="img-responsive img-circle" src={img || "/assets/img/user.png"}/>
+                                </div>
+                                <div className="col-md-1 col-lg-1 col-sm-1 col-xs-1">
+                                    {
+                                        !inEditMode &&
+                                        <IconButton tooltip="Edit" touch={true} tooltipPosition="bottom-center" onClick={(e) => this.handleEditMode(e, true)}>
+                                            <ModeEdit color={darkWhite} />
+                                        </IconButton>
+                                    }
                                 </div>
                             </div>
                         </div>
                     }
                 >
-                    <img src="/assets/img/LinkedinCover.jpg" />
+                    <img src={cover || "/assets/img/LinkedinCover.jpg" }/>
                 </CardMedia>
                 {
                     inEditMode &&

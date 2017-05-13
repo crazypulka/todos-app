@@ -20,7 +20,7 @@ const router =
         </Route>
 
         {/*TODO: many more pages*/}
-        
+
         <Route component={CheckProfile}>
             <Route path={USER_WILDCARD} component={AuthorizedProfile}/>
         </Route>
