@@ -28,7 +28,7 @@ import DatePicker from 'material-ui/DatePicker';
 import AutoComplete from 'material-ui/AutoComplete';
 import TextField from 'material-ui/TextField';
 import Avatar from 'material-ui/Avatar';
-import {Card, CardHeader} from 'material-ui/Card';
+import {Card, CardHeader, CardText,  CardActions, CardMedia, CardTitle} from 'material-ui/Card';
 import Toggle from 'material-ui/Toggle';
 import { TODO_FILTER_ENUM } from '../../../../../constants';
 
@@ -54,6 +54,7 @@ export class ProfileComponent extends React.Component {
         this.state = {
             inEditMode: false, //not model item
             name: "",
+            about: "",
             username: "",
             email: "",
             mobile: "",
@@ -80,6 +81,10 @@ export class ProfileComponent extends React.Component {
 
     handleNameChange = (e) => {
         this.setState({name: e.target.value});
+    };
+
+    handleAboutChange = (e) => {
+        this.setState({about: e.target.value});
     };
 
     handleUserNameChange = (e) => {
@@ -109,9 +114,14 @@ export class ProfileComponent extends React.Component {
         });
     };
 
+    handleUpdate = (e) => {
+        //TODO:
+        this.handleToggle(e, false);
+    };
+
     render() {
 
-        const { inEditMode, name, username, email, mobile,
+        const { inEditMode, name, about, username, email, mobile,
             location, verified, timezone, gender, dob,
             isPublic, daily, weekly, monthly, locations
         } = this.state;
@@ -122,159 +132,134 @@ export class ProfileComponent extends React.Component {
                 <div className="row">
                     <div className="col-md-2"></div>
                     <div className="col-md-8">
-                        <div className="row">
-                            <div className="col-md-9">
-                                <Toggle
-                                    toggled={inEditMode}
-                                    onToggle={this.handleToggle}
-                                    labelPosition="right"
-                                    label="Edit"
-                                />
-                            </div>
-                            <div className="col-md-3">
-                                <Avatar
-                                    src="/assets/img/user.png"
-                                    size={200}
-                                    style={{}}
-                                />
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-12">
-                                { inEditMode &&
-                                <TextField
-                                    value={username}
-                                    onChange={this.handleUserNameChange}
-                                    fullWidth={true}
-                                    floatingLabelText={<FloatingText required>username</FloatingText>}
-                                />
+                        <Card expanded={true} onExpandChange={this.handleExpandChange}>
+                            <CardMedia
+                                overlay={
+                                    <div className="container-fluid">
+                                        <div className="row">
+                                            <div className="col-md-9">
+                                                <Toggle
+                                                    toggled={inEditMode}
+                                                    onToggle={this.handleToggle}
+                                                    labelPosition="right"
+                                                    label="Edit"
+                                                />
+                                                <CardTitle title={name} subtitle={about} titleColor={fullWhite} subtitleColor={darkWhite}/>
+                                            </div>
+                                            <div className="col-md-3">
+                                                <Avatar
+                                                    src="/assets/img/user.png"
+                                                    size={150}
+                                                    style={{}}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
                                 }
-                                { !inEditMode &&
-                                <Card>
-                                    <CardHeader
-                                        title={name}
-                                        titleStyle={titleStyles}
-                                        subtitle="@username"
-                                        subtitleStyle={subTitleStyles}
+                            >
+                                <img src="/assets/img/LinkedinCover.jpg" />
+                            </CardMedia>
+                            {
+                                inEditMode &&
+                                <CardText>
+                                    <TextField
+                                        value={username}
+                                        onChange={this.handleUserNameChange}
+                                        fullWidth={true}
+                                        floatingLabelText={<FloatingText required>username</FloatingText>}
                                     />
-                                </Card>
-                                }
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-12">
-                                { inEditMode &&
                                     <TextField
                                         value={name}
                                         onChange={this.handleNameChange}
                                         fullWidth={true}
                                         floatingLabelText={<FloatingText required>Full Name</FloatingText>}
                                     />
-                                }
-                                { !inEditMode &&
-                                    <Card>
-                                        <CardHeader
+                                    <TextField
+                                        value={about}
+                                        onChange={this.handleAboutChange}
+                                        fullWidth={true}
+                                        multiLine={true}
+                                        rowsMax={2}
+                                        floatingLabelText={<FloatingText required>About</FloatingText>}
+                                    />
+                                    <TextField
+                                        value={email}
+                                        onChange={this.handleEmailChange}
+                                        fullWidth={true}
+                                        floatingLabelText={<FloatingText required>Email</FloatingText>}
+                                    />
+                                    <DatePicker
+                                        autoOk={true}
+                                        container="inline"
+                                        onChange={this.handleDateChange}
+                                        defaultDate={new Date()}
+                                        textFieldStyle={{cursor: 'pointer'}}
+                                        fullWidth={true}
+                                        floatingLabelText={<FloatingText>Date of Birth</FloatingText>}
+                                    />
+                                    <TextField
+                                        value={mobile}
+                                        onChange={this.handleMobileChange}
+                                        fullWidth={true}
+                                        floatingLabelText={<FloatingText>Mobile</FloatingText>}
+                                    />
+                                    <AutoComplete
+                                        dataSource={locations}
+                                        onUpdateInput={this.handleSearch}
+                                        textFieldStyle={{color: darkWhite}}
+                                        fullWidth={true}
+                                        floatingLabelText={<FloatingText>Location</FloatingText>}
+                                    />
+                                </CardText>
+                            }
+                            {
+                                !inEditMode &&
+                                    <div>
+                                        <CardTitle
+                                            title={username}
+                                            titleStyle={titleStyles}
+                                            subtitle="@username"
+                                            subtitleStyle={subTitleStyles}
+                                        />
+                                        <CardTitle
                                             title={name}
                                             titleStyle={titleStyles}
                                             subtitle="Full Name"
                                             subtitleStyle={subTitleStyles}
                                         />
-                                    </Card>
-                                }
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-12">
-                                { inEditMode &&
-                                <TextField
-                                    value={email}
-                                    onChange={this.handleEmailChange}
-                                    fullWidth={true}
-                                    floatingLabelText={<FloatingText required>Email</FloatingText>}
-                                />
-                                }
-                                { !inEditMode &&
-                                <Card>
-                                    <CardHeader
-                                        title={email}
-                                        titleStyle={titleStyles}
-                                        subtitle="Email"
-                                        subtitleStyle={subTitleStyles}
-                                    />
-                                </Card>
-                                }
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-12">
-                                { inEditMode &&
-                                <DatePicker
-                                    autoOk={true}
-                                    container="inline"
-                                    onChange={this.handleDateChange}
-                                    defaultDate={new Date()}
-                                    textFieldStyle={{cursor: 'pointer'}}
-                                    fullWidth={true}
-                                    floatingLabelText={<FloatingText>Date of Birth</FloatingText>}
-                                />
-                                }
-                                { !inEditMode &&
-                                <Card>
-                                    <CardHeader
-                                        title={dob}
-                                        titleStyle={titleStyles}
-                                        subtitle="Date of Birth"
-                                        subtitleStyle={subTitleStyles}
-                                    />
-                                </Card>
-                                }
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-12">
-                                { inEditMode &&
-                                <TextField
-                                    value={mobile}
-                                    onChange={this.handleMobileChange}
-                                    fullWidth={true}
-                                    floatingLabelText={<FloatingText>Mobile</FloatingText>}
-                                />
-                                }
-                                { !inEditMode &&
-                                <Card>
-                                    <CardHeader
-                                        title={mobile}
-                                        titleStyle={titleStyles}
-                                        subtitle="Mobile"
-                                        subtitleStyle={subTitleStyles}
-                                    />
-                                </Card>
-                                }
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-12">
-                                { inEditMode &&
-                                <AutoComplete
-                                    dataSource={locations}
-                                    onUpdateInput={this.handleSearch}
-                                    textFieldStyle={{color: darkWhite}}
-                                    fullWidth={true}
-                                    floatingLabelText={<FloatingText>Location</FloatingText>}
-                                />
-                                }
-                                { !inEditMode &&
-                                <Card>
-                                    <CardHeader
-                                        title={location}
-                                        titleStyle={titleStyles}
-                                        subtitle="Location"
-                                        subtitleStyle={subTitleStyles}
-                                    />
-                                </Card>
-                                }
-                            </div>
-                        </div>
+                                        <CardTitle
+                                            title={email}
+                                            titleStyle={titleStyles}
+                                            subtitle="Email"
+                                            subtitleStyle={subTitleStyles}
+                                        />
+                                        <CardTitle
+                                            title={dob}
+                                            titleStyle={titleStyles}
+                                            subtitle="Date of Birth"
+                                            subtitleStyle={subTitleStyles}
+                                        />
+                                        <CardTitle
+                                            title={mobile}
+                                            titleStyle={titleStyles}
+                                            subtitle="Mobile"
+                                            subtitleStyle={subTitleStyles}
+                                        />
+                                        <CardTitle
+                                            title={location}
+                                            titleStyle={titleStyles}
+                                            subtitle="Location"
+                                            subtitleStyle={subTitleStyles}
+                                        />
+                                    </div>
+                            }
+                            {
+                                inEditMode &&
+                                    <CardActions className="text-right">
+                                        <RaisedButton label="Update" primary={true} onClick={this.handleUpdate} />
+                                    </CardActions>
+                            }
+                        </Card>
                     </div>
                     <div className="col-md-2"></div>
                 </div>
