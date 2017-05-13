@@ -30,7 +30,7 @@ import TextField from 'material-ui/TextField';
 import Avatar from 'material-ui/Avatar';
 import {Card, CardHeader, CardText,  CardActions, CardMedia, CardTitle} from 'material-ui/Card';
 import Toggle from 'material-ui/Toggle';
-import { TODO_FILTER_ENUM } from '../../../../../constants';
+import { TODO_FILTER_ENUM } from '../../../../../constants/index';
 
 const FloatingText = (props) => (
     <span>
@@ -127,144 +127,134 @@ export class ProfileComponent extends React.Component {
         } = this.state;
 
         return (
-        <section className="content">
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="col-md-2"></div>
-                    <div className="col-md-8">
-                        <Card expanded={true} onExpandChange={this.handleExpandChange}>
-                            <CardMedia
-                                overlay={
-                                    <div className="container-fluid">
-                                        <div className="row">
-                                            <div className="col-md-9">
-                                                <Toggle
-                                                    toggled={inEditMode}
-                                                    onToggle={this.handleToggle}
-                                                    labelPosition="right"
-                                                    label="Edit"
-                                                />
-                                                <CardTitle title={name} subtitle={about} titleColor={fullWhite} subtitleColor={darkWhite}/>
-                                            </div>
-                                            <div className="col-md-3">
-                                                <Avatar
-                                                    src="/assets/img/user.png"
-                                                    size={150}
-                                                    style={{}}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            >
-                                <img src="/assets/img/LinkedinCover.jpg" />
-                            </CardMedia>
-                            {
-                                inEditMode &&
-                                <CardText>
-                                    <TextField
-                                        value={username}
-                                        onChange={this.handleUserNameChange}
-                                        fullWidth={true}
-                                        floatingLabelText={<FloatingText required>username</FloatingText>}
+            <Card expanded={true} onExpandChange={this.handleExpandChange}>
+                <CardMedia
+                    overlay={
+                        <div className="container-fluid">
+                            <div className="row">
+                                <div className="col-md-9">
+                                    <Toggle
+                                        toggled={inEditMode}
+                                        onToggle={this.handleToggle}
+                                        labelPosition="right"
+                                        label="Edit"
                                     />
-                                    <TextField
-                                        value={name}
-                                        onChange={this.handleNameChange}
-                                        fullWidth={true}
-                                        floatingLabelText={<FloatingText required>Full Name</FloatingText>}
+                                    <CardTitle title={name} subtitle={about} titleColor={fullWhite} subtitleColor={darkWhite}/>
+                                </div>
+                                <div className="col-md-3">
+                                    <Avatar
+                                        src="/assets/img/user.png"
+                                        size={150}
+                                        style={{}}
                                     />
-                                    <TextField
-                                        value={about}
-                                        onChange={this.handleAboutChange}
-                                        fullWidth={true}
-                                        multiLine={true}
-                                        rowsMax={2}
-                                        floatingLabelText={<FloatingText required>About</FloatingText>}
-                                    />
-                                    <TextField
-                                        value={email}
-                                        onChange={this.handleEmailChange}
-                                        fullWidth={true}
-                                        floatingLabelText={<FloatingText required>Email</FloatingText>}
-                                    />
-                                    <DatePicker
-                                        autoOk={true}
-                                        container="inline"
-                                        onChange={this.handleDateChange}
-                                        defaultDate={new Date()}
-                                        textFieldStyle={{cursor: 'pointer'}}
-                                        fullWidth={true}
-                                        floatingLabelText={<FloatingText>Date of Birth</FloatingText>}
-                                    />
-                                    <TextField
-                                        value={mobile}
-                                        onChange={this.handleMobileChange}
-                                        fullWidth={true}
-                                        floatingLabelText={<FloatingText>Mobile</FloatingText>}
-                                    />
-                                    <AutoComplete
-                                        dataSource={locations}
-                                        onUpdateInput={this.handleSearch}
-                                        textFieldStyle={{color: darkWhite}}
-                                        fullWidth={true}
-                                        floatingLabelText={<FloatingText>Location</FloatingText>}
-                                    />
-                                </CardText>
-                            }
-                            {
-                                !inEditMode &&
-                                    <div>
-                                        <CardTitle
-                                            title={username}
-                                            titleStyle={titleStyles}
-                                            subtitle="@username"
-                                            subtitleStyle={subTitleStyles}
-                                        />
-                                        <CardTitle
-                                            title={name}
-                                            titleStyle={titleStyles}
-                                            subtitle="Full Name"
-                                            subtitleStyle={subTitleStyles}
-                                        />
-                                        <CardTitle
-                                            title={email}
-                                            titleStyle={titleStyles}
-                                            subtitle="Email"
-                                            subtitleStyle={subTitleStyles}
-                                        />
-                                        <CardTitle
-                                            title={dob}
-                                            titleStyle={titleStyles}
-                                            subtitle="Date of Birth"
-                                            subtitleStyle={subTitleStyles}
-                                        />
-                                        <CardTitle
-                                            title={mobile}
-                                            titleStyle={titleStyles}
-                                            subtitle="Mobile"
-                                            subtitleStyle={subTitleStyles}
-                                        />
-                                        <CardTitle
-                                            title={location}
-                                            titleStyle={titleStyles}
-                                            subtitle="Location"
-                                            subtitleStyle={subTitleStyles}
-                                        />
-                                    </div>
-                            }
-                            {
-                                inEditMode &&
-                                    <CardActions className="text-right">
-                                        <RaisedButton label="Update" primary={true} onClick={this.handleUpdate} />
-                                    </CardActions>
-                            }
-                        </Card>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                >
+                    <img src="/assets/img/LinkedinCover.jpg" />
+                </CardMedia>
+                {
+                    inEditMode &&
+                    <CardText>
+                        <TextField
+                            value={username}
+                            onChange={this.handleUserNameChange}
+                            fullWidth={true}
+                            floatingLabelText={<FloatingText required>username</FloatingText>}
+                        />
+                        <TextField
+                            value={name}
+                            onChange={this.handleNameChange}
+                            fullWidth={true}
+                            floatingLabelText={<FloatingText required>Full Name</FloatingText>}
+                        />
+                        <TextField
+                            value={about}
+                            onChange={this.handleAboutChange}
+                            fullWidth={true}
+                            multiLine={true}
+                            rowsMax={2}
+                            floatingLabelText={<FloatingText required>About</FloatingText>}
+                        />
+                        <TextField
+                            value={email}
+                            onChange={this.handleEmailChange}
+                            fullWidth={true}
+                            floatingLabelText={<FloatingText required>Email</FloatingText>}
+                        />
+                        <DatePicker
+                            autoOk={true}
+                            container="inline"
+                            onChange={this.handleDateChange}
+                            defaultDate={new Date()}
+                            textFieldStyle={{cursor: 'pointer'}}
+                            fullWidth={true}
+                            floatingLabelText={<FloatingText>Date of Birth</FloatingText>}
+                        />
+                        <TextField
+                            value={mobile}
+                            onChange={this.handleMobileChange}
+                            fullWidth={true}
+                            floatingLabelText={<FloatingText>Mobile</FloatingText>}
+                        />
+                        <AutoComplete
+                            dataSource={locations}
+                            onUpdateInput={this.handleSearch}
+                            textFieldStyle={{color: darkWhite}}
+                            fullWidth={true}
+                            floatingLabelText={<FloatingText>Location</FloatingText>}
+                        />
+                    </CardText>
+                }
+                {
+                    !inEditMode &&
+                    <div>
+                        <CardTitle
+                            title={username}
+                            titleStyle={titleStyles}
+                            subtitle="@username"
+                            subtitleStyle={subTitleStyles}
+                        />
+                        <CardTitle
+                            title={name}
+                            titleStyle={titleStyles}
+                            subtitle="Full Name"
+                            subtitleStyle={subTitleStyles}
+                        />
+                        <CardTitle
+                            title={email}
+                            titleStyle={titleStyles}
+                            subtitle="Email"
+                            subtitleStyle={subTitleStyles}
+                        />
+                        <CardTitle
+                            title={dob}
+                            titleStyle={titleStyles}
+                            subtitle="Date of Birth"
+                            subtitleStyle={subTitleStyles}
+                        />
+                        <CardTitle
+                            title={mobile}
+                            titleStyle={titleStyles}
+                            subtitle="Mobile"
+                            subtitleStyle={subTitleStyles}
+                        />
+                        <CardTitle
+                            title={location}
+                            titleStyle={titleStyles}
+                            subtitle="Location"
+                            subtitleStyle={subTitleStyles}
+                        />
                     </div>
-                    <div className="col-md-2"></div>
-                </div>
-            </div>
-        </section>
+                }
+                {
+                    inEditMode &&
+                    <CardActions className="text-right">
+                        <RaisedButton label="Update" primary={true} onClick={this.handleUpdate} />
+                    </CardActions>
+                }
+            </Card>
         );
     }
 }

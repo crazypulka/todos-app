@@ -45,7 +45,9 @@ class App extends Component{
             <MuiThemeProvider>
                 <div className="container-full">
                     <Header isLoggedIn={true}/>
-                    <ProfileComponent/>
+                    {
+                        children
+                    }
                 </div>
             </MuiThemeProvider>
         )

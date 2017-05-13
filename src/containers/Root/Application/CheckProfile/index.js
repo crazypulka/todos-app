@@ -1,5 +1,5 @@
 /**
- * Created by jyothi on 30/4/17.
+ * Created by jyothi on 14/5/17.
  */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
@@ -18,7 +18,10 @@ function mapDispatchToProps(dispatch) {
 
 const token = 1234567;
 
-class RequireAuth extends Component{
+/**
+ * Checks for existence of User and profile privacy
+ */
+class CheckProfile extends Component{
 
     componentWillMount(){
         //TODO:
@@ -40,4 +43,4 @@ class RequireAuth extends Component{
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(RequireAuth);
+)(CheckProfile);

@@ -1,12 +1,12 @@
 /**
- * Created by jyothi on 30/4/17.
+ * Created by jyothi on 14/5/17.
  */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import Todo from '../../../../../components/Todo';
-import { TODO_FILTER_ENUM } from '../../../../../constants/index';
+import { TODO_FILTER_ENUM } from '../../../../../constants';
 import { ProfileComponent } from './components';
 
 function mapStateToProps(state) {
@@ -21,9 +21,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-const token = 1234567;
-
-class Profile extends Component {
+class Error404 extends Component {
 
     constructor(props){
 
@@ -64,11 +62,11 @@ class Profile extends Component {
     }
 }
 
-Profile.contextTypes = {
+Error404.contextTypes = {
     router: PropTypes.object.isRequired
 };
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(Profile);
+)(Error404);
