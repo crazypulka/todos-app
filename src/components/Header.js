@@ -10,6 +10,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Toggle from 'material-ui/Toggle';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import OAuth from './OAuth';
 
 export default class Header extends Component {
 
@@ -46,9 +47,20 @@ Logged.muiName = 'IconMenu';
 class Login extends Component {
     static muiName = 'FlatButton';
 
+    constructor(props){
+        super(props);
+        this.state = {
+            askLogin: false
+        };
+    }
+
     render() {
+        const {askLogin} = this.state;
         return (
-            <FlatButton {...this.props} label="Login" />
+            <div>
+                <FlatButton {...this.props} label="Login" onClick={() =>  this.setState({askLogin: !askLogin})}/>
+                <OAuth show={askLogin}/>
+            </div>
         );
     }
 }
