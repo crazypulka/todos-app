@@ -5,6 +5,10 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
+import { darkWhite, blue900, red900 } from 'material-ui/styles/colors'
+import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
+import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import Todo from '../../../../../components/Todo';
 import { TODO_FILTER_ENUM } from '../../../../../constants';
 import { TodosToolbar } from './components';
@@ -57,8 +61,10 @@ class Todos extends Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-1 col-lg-1 visible-md visible-lg">
-                            <Paper zDepth={1}>
-                                <RaisedButton label="Yesterday" primary={true} style={{width: '100%'}} />
+                            <Paper zDepth={1} className="text-center">
+                                <IconButton tooltip="Done" touch={true} tooltipPosition="bottom-right" onClick={() => {}}>
+                                    <ArrowBack color={red900}/>
+                                </IconButton>
                             </Paper>
                         </div>
                         <div className="col-xs-12 col-sm-12 col-md-10 col-lg-10">
@@ -68,8 +74,10 @@ class Todos extends Component {
                             </Paper>
                         </div>
                         <div className="col-md-1 col-lg-1 visible-md visible-lg">
-                            <Paper zDepth={1}>
-                                <RaisedButton label="Tomorrow" secondary={true} style={{width: '100%'}}/>
+                            <Paper zDepth={1} className="text-center">
+                                <IconButton tooltip="Tomorrow" touch={true} tooltipPosition="bottom-left" onClick={() => {}}>
+                                    <ArrowForward color={blue900}/>
+                                </IconButton>
                             </Paper>
                         </div>
                     </div>

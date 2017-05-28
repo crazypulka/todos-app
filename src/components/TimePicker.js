@@ -13,7 +13,7 @@ export default class CustomTimePicker extends React.Component {
     }
 
     handleChangeTimePicker = (event, date) => {
-        this.props.handleDateChange(date);
+        this.props.handleChange(date);
         this.setState({value: date});
     };
 

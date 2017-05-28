@@ -2,3 +2,6 @@
 .idea
 *.iml
 node_modules
+public/css/bootstrap.min.css
+public/js/bootstrap.min.js
+public/js/jquery.js

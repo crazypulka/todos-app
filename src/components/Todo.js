@@ -154,7 +154,7 @@ export default class Todo extends Component {
     handleNotification = (flag) => {
         //handle UNDO also
         //this.setState({endTime: value});
-        this.setState({notify: true})
+        this.setState({notify: flag});
     };
 
     handleSave = (e) => {
@@ -197,6 +197,32 @@ export default class Todo extends Component {
                         }
                     </div>
                 </CardHeader>
+                <CardText expandable={true}>
+                    <div className="row">
+                        <div className="col-md-7">
+                            <TextField
+                                value={title}
+                                onChange={this.handleTitleChange}
+                                floatingLabelText="Title of new Pulka"
+                                {...{errorText: hintTitleError && "Title required..!"}}
+                                fullWidth={true}
+                            />
+                            <TextField
+                                value={description}
+                                onChange={this.handleDescriptionChange}
+                                floatingLabelText="Ingredients if any (description)"
+                                fullWidth={true}
+                            />
+                        </div>
+                        <div className="col-md-3">
+                            <TimePicker value={startTime} floatingLabelText="Start Time" handleChange={this.handleStartTimeChange} autoOk={true}/>
+                            <TimePicker value={endTime} floatingLabelText="End Time" handleChange={this.handleEndTimeChange} autoOk={true}/>
+                        </div>
+                        <div className="col-md-2">
+                            <PrioritySelector value={priority} handleChange={this.handlePriorityChange}/>
+                        </div>
+                    </div>
+                </CardText>
                 <CardText expandable={true} style={{borderBottom: '1px solid #DDD', borderTop: '1px solid #DDD'}}>
                     <div className="row text-center">
                         <div className="col-md-4">
@@ -237,30 +263,6 @@ export default class Todo extends Component {
                             <IconButton tooltip="Delete" touch={true} tooltipPosition="top-center" onClick={() => this.handleDelete()}>
                                 <DeleteForeverIcon color={red500} />
                             </IconButton>
-                        </div>
-                    </div>
-                </CardText>
-                <CardText expandable={true}>
-                    <div className="row">
-                        <div className="col-md-5">
-                            <TextField
-                                value={title}
-                                onChange={this.handleTitleChange}
-                                floatingLabelText="Title of new Pulka"
-                                {...{errorText: hintTitleError && "Title required..!"}}
-                            />
-                            <TextField
-                                value={description}
-                                onChange={this.handleDescriptionChange}
-                                floatingLabelText="Ingredients if any (description)"
-                            />
-                        </div>
-                        <div className="col-md-5">
-                            <TimePicker value={startTime} floatingLabelText="Start Time" handleChange={this.handleStartTimeChange} autoOk={true}/>
-                            <TimePicker value={endTime} floatingLabelText="End Time" handleChange={this.handleEndTimeChange} autoOk={true}/>
-                        </div>
-                        <div className="col-md-2">
-                            <PrioritySelector value={priority} handleChange={this.handlePriorityChange}/>
                         </div>
                     </div>
                 </CardText>
