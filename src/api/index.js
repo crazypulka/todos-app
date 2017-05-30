@@ -90,32 +90,3 @@ export const callApi = (url, config, onSuccess, onFailure) => {
         });
     });
 };
-
-/**
- * @deprecated
- * @param url
- * @param config
- * @param onSuccess
- * @param onFailure
- */
-export const oldCallApi = (url, config, onSuccess, onFailure) => {
-    return new Promise((resolve, reject) => {
-        const fullUrl = API_ROOT + url;
-        const options = makeConfig(config);
-        logger.info("Came to make Ajax request with options for URL: ", url, " are : =>", options);
-        fetch(fullUrl, options).then(response => {
-            logger.info("Response for URL: " + fullUrl, response, response.body);
-            response.json().then(json => {
-                logger.log("json", json);
-                if (!response.ok) {
-                    logger.warn("Warning:::: ", json, "for URL: => " + fullUrl, " with Request Options: => ", options);
-                    handleFailure(reject, onFailure, response);
-                }
-                handleSuccess(resolve, onSuccess, json);
-            })
-        }).catch(err => {
-            logger.error("Error:::: ", err, "for URL: => " + fullUrl, " with Request Options: => ", options);
-            handleFailure(reject, onFailure, err);
-        });
-    });
-};

@@ -12,6 +12,8 @@ import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import Todo from '../../../../../components/Todo';
 import { TODO_FILTER_ENUM } from '../../../../../constants';
 import { TodosToolbar } from './components';
+import { bindActionCreators } from 'redux';
+import * as todosActions from './actions';
 
 function mapStateToProps(state) {
     return {
@@ -20,9 +22,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        //logout: () => dispatch(logoutUser()),
-    };
+    return bindActionCreators(todosActions, dispatch);
 }
 
 const token = 1234567;

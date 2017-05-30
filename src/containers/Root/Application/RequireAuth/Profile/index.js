@@ -7,6 +7,8 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import Todo from '../../../../../components/Todo';
 import { TODO_FILTER_ENUM } from '../../../../../constants/index';
+import { bindActionCreators } from 'redux';
+import * as profileActions from './actions';
 import { ProfileComponent } from './components';
 
 function mapStateToProps(state) {
@@ -16,9 +18,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        //logout: () => dispatch(logoutUser()),
-    };
+    return bindActionCreators(profileActions, dispatch);
 }
 
 const token = 1234567;
